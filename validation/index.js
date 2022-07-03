@@ -1,4 +1,5 @@
 const {check, validationResult} = require('express-validator')
+const { filecheck } = require('../utils/fileUpload')
 
 exports.categoryRules = [
     check('category_name','category name is required').notEmpty()
@@ -20,9 +21,7 @@ exports.productRules = [
     .isLength({min:20}).withMessage('description must be at least 20 characters'),
     check('count_in_stock','count in stock is required').notEmpty()
     .isNumeric().withMessage('count must be only numbers'),
-    check('category','category is required').notEmpty(),
-    check('product_image','image is required').notEmpty()
-    
+    check('category','category is required').notEmpty()
 ]
 
 exports.validation = (req,res,next) =>{

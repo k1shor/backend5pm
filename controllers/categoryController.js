@@ -28,7 +28,7 @@ exports.addCategory = async(request,response) => {
 exports.getAllCategories = async(req,res) =>{
     let cat =await Category.find()
     if(!cat){
-        return response.status(400).json({error:"something went wrong"})
+        return res.status(400).json({error:"something went wrong"})
     }
     else{
         res.send(cat)
@@ -39,7 +39,7 @@ exports.getAllCategories = async(req,res) =>{
 exports.findCategory = async(req,res)=>{
     let cat = await Category.findById(req.params.id)
     if(!cat){
-        return response.status(400).json({error:"something went wrong"})
+        return res.status(400).json({error:"something went wrong"})
     }
     else{
         res.send(cat)
@@ -56,7 +56,7 @@ exports.updateCategory = async(req,res)=>{
         {new:true}
     )
     if(!cat){
-        return response.status(400).json({error:"something went wrong"})
+        return res.status(400).json({error:"something went wrong"})
     }
     else{
         res.send(cat)

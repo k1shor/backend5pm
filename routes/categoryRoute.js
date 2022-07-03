@@ -10,7 +10,7 @@ router.post('/addcategory',requireSignin, categoryRules, validation,addCategory)
 router.get('/categories',getAllCategories)
 router.get('/findcategory/:id',findCategory)
 router.put('/category/update/:id',updateCategory)
-router.delete('/deletecategory/:id',deleteCategory)
+router.delete('/deletecategory/:id',requireSignin, deleteCategory)
 
 
 module.exports = router

@@ -47,7 +47,7 @@ userSchema.methods={
     encryptPassword:function(password){
         if(password== null) return ''
         try{
-            return crypto.createHmac('sha256',this.salt).update('password').digest('hex')
+            return crypto.createHmac('sha256',this.salt).update(password).digest('hex')
         }
         catch{
             return ''

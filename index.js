@@ -16,6 +16,7 @@ const CategoryRoute = require('./routes/categoryRoute')
 const ProductRoute = require('./routes/productRoute')
 const UserRoute = require('./routes/userRoute')
 const OrderRoute = require('./routes/orderRoute')
+const PaymentRoute = require('./routes/paymentRoute')
 
 const port = process.env.PORT || 8000
 
@@ -29,7 +30,9 @@ app.use('/api',CategoryRoute)
 app.use('/api',ProductRoute)
 app.use('/api',UserRoute)
 app.use('/api',OrderRoute)
-// / ->localhost:5000
+app.use('/api',PaymentRoute)
+
+app.use('/public/uploads',express.static('public/uploads'))
 
 app.listen(port,()=>{
     console.log(`server started at port ${port}`)

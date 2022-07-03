@@ -26,9 +26,9 @@ const storage = multer.diskStorage({
 })
 
 let imageFilter = (req, file, cb) => {
-    if (file == null) {
-        return cb(new Error('Please choose a file to upload'), false)
-    }
+    // if (!req.file) {
+    //     return cb(new Error('Please choose a file to upload'), false)
+    // }
 
     if (!file.originalname.match(/\.(jpg|png|gif|jpeg|svg|JPG|PNG|GIF|JPEG|SVG|jfif)$/)) {
         return cb(new Error('You can upload image file only'), false)
@@ -39,9 +39,17 @@ let imageFilter = (req, file, cb) => {
     }
 }
 
-exports.upload = multer({ 
+exports.upload = multer({
     storage: storage,
-    fileFilter:imageFilter,
-    limits:{
-        fileSize:2048000 //2MB
-    } })
+    fileFilter: imageFilter,
+    limits: {
+        fileSize: 2048000 //2MB
+    }
+})
+
+exports.filecheck = (req, res) => {
+    if (!req.file) {
+        return false
+    }
+    return true
+}

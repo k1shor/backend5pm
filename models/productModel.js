@@ -27,6 +27,10 @@ const productSchema = new mongoose.Schema({
         type:Number,
         default:1,
         max:5
+    },
+    count_in_stock:{
+        type:Number,
+        required:true
     }
 },{timestamps:true})
 

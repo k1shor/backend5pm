@@ -97,7 +97,8 @@ exports.resendConfirmation = async (req, res) => {
         return res.status(400).json({ error: "something went wrong" })
     }
 
-    confirmation_link = `http://localhost:5000/api/confirmuser/${token.token}`
+    // confirmation_link = `http://localhost:5000/api/confirmuser/${token.token}`
+    confirmation_link = `${process.env.FRONT_END_URL}/confirmuser/${token.token}`
 
     sendEmail({
         from: "noreply@ourstore.com",
@@ -125,13 +126,14 @@ exports.forgetpassword = async (req, res) => {
         return res.status(400).json({ error: "something went wrong" })
     }
 
-    password_reset_link = `http://localhost:5000/api/resetpassword/${token.token}`
+    // password_reset_link = `http://localhost:5000/api/resetpassword/${token.token}`
+    password_reset_link = `${process.env.FRONT_END_URL}/resetpassword/${token.token}`
 
     sendEmail({
         from: "noreply@ourstore.com",
         to: user.email,
         subject: "Password Reset Link",
-        text: "Please click on the following link to reset your password.",
+        text: `Please click on the following link to reset your password. ${password_reset_link}`,
         html: `<a href='${password_reset_link}'><button>Verify Account</button></a>`
     })
     res.status(200).json({ message: "password reset link has been sent to your email." })
@@ -224,7 +226,7 @@ exports.signin = async (req,res) =>{
     }
     // check if user is verified or not
     if(!user.isVerified){
-        return res.status(400).json({error:"User not verified. Please verify to continue"})
+        return res.status(400).json({error:`User not verified. Please verify to continue. <Link to ='${process.env.FRONT_END_URL}/resendverification'>Resend Confirmation Link</Link>`})
     }
     // if verified, generate login token and save it in cookie
     const token = jwt.sign({_id: user._id, role: user.role}, process.env.JWT_SECRET)
@@ -232,14 +234,14 @@ exports.signin = async (req,res) =>{
     res.cookie('myCookies',token, {expire: Date.now()+86400})
 
     // return user information to the frontend
-    const {user_name, _id, role} = user
-    return res.json({token, user:{_id, role, user_name, email}})
+    const {username, _id, role} = user
+    return res.json({token, user:{_id, role, username, email}})
 }
 
 // signout
 
 exports.signout = async (req, res) =>{
-    res.clearCookie('myCookies')
+    await res.clearCookie('myCookies')
     return res.status(200).json({message:"user logged out successfully"})
 }
 
